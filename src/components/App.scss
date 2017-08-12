@@ -1,0 +1,120 @@
+html {
+  background-image: url("./images/milkyway.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+// .button {
+//   border-radius: 50%;
+//   border: 1px solid white;
+//   width: 50px;
+//   height: 50px;
+// }
+
+// .menu-button {
+//   padding-left: 20px;
+//   display: inline-block;
+//   position: absolute;
+//   top: 25px;
+//   left: 25px;
+//   width: 40px;
+//   height: 40px;
+// }
+
+// .line-1, .line-2, .line-3 {
+//   width: 22px;
+//   height: 2px;
+//   background-color: white;
+//   margin: 5px auto;
+//   position: relative;
+//   left: -12px;
+// }
+
+// .line-1 {
+//   margin-top: 11px;
+// }
+
+// .fa {
+//     padding: 20px;
+//     font-size: 30px;
+//     width: 30px;
+//     text-align: center;
+//     text-decoration: none;
+//     border-radius: 50%;
+//     color: white;
+// }
+
+// .social-media-buttons {
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+// }
+
+
+
+// .container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+//   width: 100%;
+
+// }
+
+// .main-title-section {
+//   text-align: center;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+//   position: relative;
+//   top: 175px;
+// }
+
+// h1 {
+//   font-family: var(--primary-font);
+//   font-size: 7rem;
+//   font-weight: 800;
+//   color: white;
+// }
+
+// h3 {
+//   font-family: var(--primary-font);
+//   font-size: 2rem;
+//   font-weight: bold;
+//   color: white;
+// }
+
+// .arrow-down-button {
+//   background: white;
+//   position: absolute;
+//   bottom: 50px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .arrow {
+//   color: gray;
+//   padding: 0;
+// }
+
+// @media (min-width: 700px) {
+//   .social-media-buttons {
+//     display: none;
+//   }
+//   .menu-button {
+//     display: none;
+//   }
+//   .desktop-nav-header {
+//     display: flex;
+//   }
+
+//   ul {
+//     width: 100%;
+//     display: flex;
+//     justify-content: space-around;
+//   }
+// }
