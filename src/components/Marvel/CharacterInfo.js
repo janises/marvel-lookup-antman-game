@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import md5 from 'md5';
-import getCharacterInfo from "../../services/Marvel/getCharacterInfo";
-import './CharacterInfo.css';
+// import './CharacterInfo.css';
 import HulkSad from "../../images/Hulk-sad.jpg"
 
 export default class CharacterInfo extends Component {
     constructor() {
         super();
         this.state= {
-            charactersURL: 'https://gateway.marvel.com/v1/public/characters?name=',
-
+            charactersURL: 'https://gateway.marvel.com/v1/public/characters?nameStartsWith=',
+            //publicKey,
+            //privateKey,
             errorMessage: ""
         };
         this.getCharacter = this.getCharacter.bind(this);
@@ -53,48 +53,59 @@ export default class CharacterInfo extends Component {
 
     render() {
         return (
-            <div className="marvel">
-                <h1> Look up a character </h1>
-                <div className="search">
-                    <input ref="input" value={this.state.character} placeholder="Hero or Villain?" onChange={(e)=> this.handleInput(e)}/>
-                <button onClick={(e)=> this.getCharacter(e, this.state.character)}> Search </button>
+            <div className="marvel-page">
+                <div className="no-marvel-search">
+                    <h1>Try looking up a character on a bigger screen</h1>
+                    <img className="hulk-sad" src={HulkSad} alt="Sad Hulk"/>
                 </div>
-                
-                {this.state.errorMessage ? (
-                    <div className="error-message">
-                        <h3>Sorry, we couldn't find them.</h3>
-                        <img className="hulk-sad" src={HulkSad} alt="Sad Hulk"/>
-                
-                    </div> ) 
-                    
-                    : (this.state.characterName ? ( 
+                <div className="marvel">
+                    <h1> Look up a character </h1>
+                    <div className="search">
+                        <form onSubmit={(e)=> this.getCharacter(e, this.state.character)}> 
+                            <input ref="input" value={this.state.character} placeholder="Character" onChange={(e)=> this.handleInput(e)}/>
+                        </form>
                         
-                        <div className="card-flip-container">
-                        <div className="character-card">
-                            <div className='card-back'>
-                                <h2>{this.state.characterName}</h2>
-                                <img src={this.state.characterPic} alt="character picture"/>
-                                
-                                {!this.state.characterDescription ? (
-                                    <p>We're too busy fangirling to describe them accurately, so check out their <a href= {this.state.characterWiki}>Wiki page</a>!</p>
-                                ) : 
-                                    <p>{this.state.characterDescription}</p>
-                                }
+                    <button onClick={(e)=> this.getCharacter(e, this.state.character)}> Search </button>
+                    </div>
+                
+                    {this.state.errorMessage ? (
+                        <div className="error-message">
+                            <h3>Sorry, we couldn't find them.</h3>
+                            <img className="hulk-sad" src={HulkSad} alt="Sad Hulk"/>
                     
-                            </div> 
-                            <div className='card-front'>
-                                <img src={this.state.characterPortrait} alt="character portrait"/>
-                            </div>
+                        </div> ) 
+                        
+                        : (this.state.characterName ? ( 
                             
-                        </div> 
+                            <div className="card-flip-container">
+                            <div className="character-card">
+                                <div className='card-back'>
+                                    <h2>{this.state.characterName}</h2>
+                                    <img src={this.state.characterPic} alt="character picture"/>
+                                    
+                                    {!this.state.characterDescription || this.state.characterDescription === " "? (
+                                        <p>We're too busy fangirling to describe them accurately, so check out their <a href= {this.state.characterWiki}>Wiki page</a>!</p>
+                                    ) : 
+                                        <p>{this.state.characterDescription}</p>
+                                    }
+                        
+                                </div> 
+                                <div className='card-front'>
+                                    <img src={this.state.characterPortrait} alt="character portrait"/>
+                                </div>
+                                
+                            </div> 
 
-                    </div> //card-flip-container end) 
-                    )
+                        </div> //card-flip-container end) 
+                        )
 
-                    :  null
-                )} 
+                        :  null
+                    )} 
 
-            </div>
+                </div> 
+                
+            </div> //end of marvel page
+            
         )
     }
 }

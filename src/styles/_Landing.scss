@@ -1,0 +1,95 @@
+.landing {
+    position: relative;
+    display: flex;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255,255,255,0.0);
+  border-radius: 5px;
+  display: block;
+}
+
+/* SHOOTING STAR */
+
+.shooting-star {
+    position: absolute;
+    background-color: white;
+    height: 3px;
+    width: 3px;
+    border-radius: 50%;
+    top: -35px;
+    left: 20px;
+    animation: shootingStar 12s linear infinite;
+}
+
+/*   HIDDEN LINK TO RON SWANSON PAGE */
+.easter-egg {
+    height: 100px;
+    width: 100px;
+    // background-color: red;
+    position: absolute;
+    top: 5vh;
+    left: 75vw;
+    display: block;
+    cursor: pointer;
+}
+
+/*  TWINKLING STAR ANIMATION*/
+@keyframes twinkle {
+  0% {
+    transform: scale(1, 1);
+    background: rgba(255,255,255,0.0);
+    animation-timing-function: ease-in;
+  }
+  60% {
+    transform: scale(0.8, 0.8);
+    background: rgba(255,255,255,1);
+    animation-timing-function: ease-out;
+  }
+  80% {
+    background: rgba(255,255,255,0.00);
+    transform: scale(1, 1);
+  }
+  100% {
+    background: rgba(255,255,255,0.0);
+    transform: scale(1, 1);
+  }
+}
+
+/* SHOOTING STAR ANIMATION*/
+@keyframes shootingStar {
+    0% {
+        left: 0;
+    }
+    15% {
+        left: 500px;
+        top: 100px;
+        visibility: hidden;
+    }
+    100% {
+        left: 500px;
+        top: 100px;
+        visibility: hidden;
+    }
+}
+
+
+/*   STARS AND RON SWANSON EASTER EGG LINK DISAPPEAR*/
+@media only screen and (max-width: 700px), (max-height: 550px) {
+    .star {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .easter-egg {
+        display: none;
+    }
+
+    .shooting-star {
+        display: none;
+    }
+}

@@ -1,0 +1,79 @@
+.game-page {
+    padding-top: 50px;
+}
+
+.board {
+    height: 400px;
+    width: 400px;
+    margin: auto;
+    position: relative;
+    // background-color: rgba(gray, 0.5);
+    display: none;
+}
+
+.hero {
+    padding: 0;
+    margin: 0;
+    background: url("../images/Ant-Man.png") no-repeat -144px -281px;
+    background-size: 678px 493px;
+    height: 85px;
+    width: 88px;
+ 
+    position: absolute;
+    z-index: 2;
+    
+}
+
+.enemy {
+    padding: 0;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    background: blue;
+    position: absolute;
+    top: 200px; 
+    left: 350px;
+    z-index: 3;
+    /* transform: translateY(-200px); */
+    /* animation: mymove 1s linear; */
+}
+
+ .projectile {
+    border-radius: 50%;
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    z-index: 3;
+    position: absolute;
+    transition: all 0.1s ease;
+} 
+
+.no-game {
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+    font-size: large;
+    margin-top: 150px;
+    display: none;
+    padding: 0 10px;
+    display: block;
+}
+
+:focus {
+    outline: none;
+}
+/* 
+@keyframes mymove {
+    from {top: 100px;}
+    to {top: 350px;}
+} */
+
+@media only screen and (min-width: 400px) and (min-height: 600px) {
+    .board {
+        display: flex;
+    }
+
+    .no-game {
+        display: none;
+    }
+}

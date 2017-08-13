@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "./Game.css";
+// import "./Game.css";
 import Shoot from './Shoot';
 
 export default class Game extends Component {
@@ -23,36 +23,41 @@ export default class Game extends Component {
         };
         this.makeNewProjectile = this.makeNewProjectile.bind(this);
         this.startProjectile = this.startProjectile.bind(this);
-        this.handleKeypress = this.handleKeypress.bind(this);  
-       
+        this.handleKeypress = this.handleKeypress.bind(this);
+        this.updateProjectilePositions = this.updateProjectilePositions.bind(this);
+        this.moveProjectiles = this.moveProjectiles.bind(this);
+        // this.handleCollision = this.handleCollision.bind(this);
+     
     }
-    
+
 
     componentDidMount() {
-        this.refs.block.focus();
+        this.refs.hero.focus();
         window.onkeydown = this.handleKeypress;
     }
 
+        
 
-       makeNewProjectile = (position) => {
+       makeNewProjectile(/*position*/) {
         this.setState({
             projectileIndex: this.state.projectileIndex + 1
         })
 
-        const newProjectile = {key: this.state.projectileIndex, 
-        info: {
-            top: this.state.positions.player.top + 25,
-            left: this.state.positions.player.left + 90
-        }};
-    
+        const newProjectile = {
+            key: this.state.projectileIndex,
+            info: {
+                top: this.state.positions.player.top + 25,
+                left: this.state.positions.player.left + 75
+            }};
+
 
         return newProjectile;
-        
+
     }
 
-    startProjectile = () => {
-        const {player: playerPos} = this.state.positions;
-        const newProjectile = this.makeNewProjectile(playerPos);
+    startProjectile() {
+        // const {player: playerPos} = this.state.positions;
+        const newProjectile = this.makeNewProjectile(/*playerPos*/);
 
         this.setState({
             positions: {
@@ -60,28 +65,61 @@ export default class Game extends Component {
                 projectiles: [...this.state.positions.projectiles].concat(newProjectile)
             }
         });
+
+        this.moveProjectiles();
+            
+            // this.state.positions.projectiles.map(function(projectile){
+            //     if(this.state.positions.projectiles.info.left > 390) {
+            //         clearInterval(this.projectileInterval)
+            //     } else {
+            //         this.projectileInterval = setInterval(this.updateProjectilePositions, 50)
+            //     }
+            // })
+         
+        
     }
 
-    updateProjectilePositions = () => {
-        const {projectileSpeed, positions: {projectiles}} = this.state;
-    
-        this.setState({
+    moveProjectiles = () => {
+        this.projectileInterval = setInterval(this.updateProjectilePositions, 100)
+    }
+
+    // handleCollision = () => {
+    //     clearInterval(this.projectileInterval)
+    // }
+
+    updateProjectilePositions() {
+        const {positions, container} = this.state;
+        {positions.projectiles.length < 1 ? null : (
+            this.setState({
             positions: {
-                ...this.state.positions,
-                projectiles: projectiles.filter(projectile => !projectile.remove).map(projectile => {
-                    if(projectile.left > this.state.container.width + 10) {
+                ...positions,
+                projectiles: positions.projectiles.map(function(projectile) {
+                    // console.log(projectile, "line 73, updateProjectilePositions()")
+                    
+                    if(projectile.info.left >= container.width -10 ) {
                         projectile.remove = true;
-                        return projectile;
+                    } else {
+                        projectile.info.left += 5;
+                        projectile.remove = false;
                     }
-                    projectile.left += projectileSpeed;
+                    // console.log(projectile, "line 78")
                     return projectile;
                 })
             }
         })
-    }
-   
 
-    handleKeypress =(e)=> {
+        )}
+        // positions.projectiles.length > 11 ? positions.projectiles.splice(0, 10) : null;
+        // console.log(positions.projectiles)
+        for(var i = 0; i < this.state.positions.projectiles.length; i++) {
+                if(this.state.positions.projectiles[i].delete) {
+                    this.state.positions.projectiles.splice(i, 1)
+                }
+            }
+    }
+
+
+    handleKeypress(e){
         // this.refs.block.focus();
         console.log(e.keyCode)
         // if(this.state.positions.player.top === 200 && this.state.positions.player.left === 100) {
@@ -130,7 +168,7 @@ export default class Game extends Component {
             (this.setState({
                 positions: {player: {top: this.state.positions.player.top,
                                     left: this.state.positions.player.left-10
-                                }, 
+                                },
                             projectiles: this.state.positions.projectiles
             }})) : null;
             break;
@@ -138,34 +176,45 @@ export default class Game extends Component {
             case 32:
             console.log("pew!");
             this.startProjectile();
-            console.log(this.state.positions.projectiles)
+            console.log(this.state.positions.projectiles,"line 143")       
             break;
 
             default:
             break;
         }
-        // }       
+        // }
     }
 
- 
+
 
     render() {
         const {positions: {player: playerPos}} = this.state;
 
         return(
-            <div className="board">
-                <div ref="block" className="block" tabIndex="0" onKeyDown={(e) =>this.handleKeypress(e)} style={this.state.positions.player}>  </div>
-                <div className="goal" ref="goal">Goal</div>
-                {
-                    this.state.positions.projectiles.map(projectile => {
-                         return <Shoot key={projectile.key} info={projectile.info} playerPosition={playerPos} /> 
-                        
-                    
-                    })
-
+            <div className="game-page">
+                <div className="board">
+                <div ref="hero" className="hero" tabIndex="0" onKeyDown={(e) =>this.handleKeypress(e)} style={this.state.positions.player}>  </div>
+                <div className="enemy" ref="enemy">Enemy</div>
+                {this.state.positions.projectiles.length < 1 ? null:  (
+                      this.state.positions.projectiles.map( function(projectile) {
+                         {/* console.log(projectile) */}
+                         {/* console.log(projectile, "line 181, return")  */}
+                            if(projectile.info.top >= 200 && projectile.info.top <= 250 && projectile.info.left === 350) {
+                                alert("You Win!")
+                            } else {
+                                return <Shoot key={projectile.key} info={projectile.info} playerPosition={playerPos} /> 
+                            }
+                            
+                      
+                    })) 
                 }
-               
+      
+                </div>
+                <div className="no-game">
+                    <h1>Oops! This game should be played on a bigger screen. </h1>
+                </div>
             </div>
+            
         )
     }
 }
