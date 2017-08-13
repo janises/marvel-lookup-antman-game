@@ -8,8 +8,8 @@ export default class CharacterInfo extends Component {
         super();
         this.state= {
             charactersURL: 'https://gateway.marvel.com/v1/public/characters?nameStartsWith=',
-            privateKey,
             publicKey,
+            privateKey,
             errorMessage: ""
         };
     }
@@ -24,8 +24,8 @@ export default class CharacterInfo extends Component {
         let ts = Date.now();
         let hash = md5(ts+this.state.privateKey+this.state.publicKey);
         e.preventDefault();
-
-        axios.get(`${this.state.charactersURL}${character}&apikey=${this.state.publicKey}&hash=${hash}&ts=${ts}`)
+        if (character) { //if the user typed at least one character in the input box
+             axios.get(`${this.state.charactersURL}${character}&apikey=${this.state.publicKey}&hash=${hash}&ts=${ts}`)
             .then(response => {
                 console.log(response.data)
                 this.setState({
@@ -45,7 +45,8 @@ export default class CharacterInfo extends Component {
                     character: ""
                 })
             })
-              
+        }
+
     }
 
 
@@ -66,7 +67,7 @@ export default class CharacterInfo extends Component {
                     <button onClick={(e)=> this.getCharacter(e, this.state.character)}> Search </button>
                     </div>
                 
-                    {this.state.errorMessage ? (
+                    {this.state.errorMessage ? ( //if the api can't find the character
                         <div className="error-message">
                             <h3>Sorry, we couldn't find them.</h3>
                             <img className="hulk-sad" src={HulkSad} alt="Sad Hulk"/>

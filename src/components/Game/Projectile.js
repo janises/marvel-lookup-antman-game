@@ -9,6 +9,8 @@ const style = (position) => {
 };
 
 export default (props) => {
+
+    
         return (
         <div className="projectile" style={style(props)}/>
     )

@@ -28,11 +28,14 @@ export default class Game extends Component {
             enemyProjectiles: []
 
         };
+        this.defaultState = Object.assign({}, this.state);
         this.makeNewProjectile = this.makeNewProjectile.bind(this);
         this.startProjectile = this.startProjectile.bind(this);
         this.handleKeypress = this.handleKeypress.bind(this);
         this.updateProjectilePositions = this.updateProjectilePositions.bind(this);
         this.updateEnemyPosition = this.updateEnemyPosition.bind(this);
+        this.win = this.win.bind(this);
+        this.lose = this.lose.bind(this);
      
     }
 
@@ -43,7 +46,9 @@ export default class Game extends Component {
         requestAnimationFrame(()=>this.updateProjectilePositions());
     }
 
-        
+    getDefaultState() {
+        return this.defaultState;
+    }    
 
     makeNewProjectile(character) {
         this.setState({
@@ -127,6 +132,24 @@ export default class Game extends Component {
             )
         }
 
+        enemyProjectiles.map((projectile)=> {
+            if(projectile.end) {
+                // this.setState({
+                //     ...this.defaultState
+                // })
+                this.lose()
+            }
+        })
+
+        positions.projectiles.map((projectile) => {
+            if(projectile.end) {
+                // this.setState({
+                //     ...this.defaultState
+                // })
+                this.win()
+            }
+        })
+
         requestAnimationFrame(()=>this.updateProjectilePositions());
 
     }
@@ -206,6 +229,20 @@ export default class Game extends Component {
         })
     }
 
+    win =() =>{
+        this.setState({
+            ...this.getDefaultState()})
+        return (
+            <div>You Win</div> 
+        )
+    }
+
+    lose =() => {
+        this.setState({...this.getDefaultState()})
+        // alert("Try again")
+        return <div>You lose</div>
+    }
+
     render() {
         const {positions: {player: playerPos}, enemy, container} = this.state;
         
@@ -215,10 +252,13 @@ export default class Game extends Component {
                 <div className="board">
                     <div ref="hero" className="hero" tabIndex="0" onKeyDown={(e) =>this.handleKeypress(e)} style={this.state.positions.player}>  </div>
                     <Enemy position={this.state.enemy} update={this.updateEnemyPosition}/>
+
                     {this.state.positions.projectiles.length < 1 ? null:  (
                         this.state.positions.projectiles.map( function(projectile) {
                             if(projectile.info.top <= (enemy.top + enemy.height) && projectile.info.top >= enemy.top && projectile.info.left === (container.width - enemy.width)) { 
-                                 alert("You Win!") 
+                                  {/* this.win() */}
+                                  projectile.end = true;
+                                    return <div> You win</div>
                               } else {   
                                 return <Shoot key={projectile.key} info={projectile.info} playerPosition={playerPos} /> 
                              } 
@@ -231,8 +271,10 @@ export default class Game extends Component {
                         this.state.enemyProjectiles.map(function(projectile) {
                             if(projectile.info.top <= (playerPos.top + 85) &&
                                 projectile.info.top >= playerPos.top && projectile.info.left === 85) {
-                                    {/* return <div className="lose"> Try again! </div> */}
-                                    alert("Try again!")
+                                    {/* this.lose() */}
+                                    projectile.end = true;
+                                    return <div>you lose</div>
+      
                             } else {
                                 return <Shoot key={projectile.key} info={projectile.info} enemyPosition={enemy}/>
                             }
