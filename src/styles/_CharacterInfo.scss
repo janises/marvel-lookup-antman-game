@@ -75,6 +75,9 @@
        padding: 10px 0;
        font-family: sans-serif;
    }
+    p {
+        line-height: 1.15em;
+    }
 }
 
 .search {
@@ -135,5 +138,11 @@ p a {
         img {
             width: 70vw;
         }
+    }
+}
+
+@media only screen and (max-height: 450px) {
+    .no-marvel-search img {
+        display: none;
     }
 }

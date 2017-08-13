@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import md5 from 'md5';
-// import './CharacterInfo.css';
+import md5 from 'md5'; //to create the hash for the api key
 import HulkSad from "../../images/Hulk-sad.jpg"
 
 export default class CharacterInfo extends Component {
@@ -9,11 +8,10 @@ export default class CharacterInfo extends Component {
         super();
         this.state= {
             charactersURL: 'https://gateway.marvel.com/v1/public/characters?nameStartsWith=',
-            //publicKey,
-            //privateKey,
+            privateKey,
+            publicKey,
             errorMessage: ""
         };
-        this.getCharacter = this.getCharacter.bind(this);
     }
 
    handleInput(e) {

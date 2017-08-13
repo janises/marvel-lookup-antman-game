@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-// import "./Game.css";
 import Shoot from './Shoot';
+import Enemy from "./Enemy";
 
 export default class Game extends Component {
     constructor() {
@@ -9,7 +9,7 @@ export default class Game extends Component {
         this.state={
             container: {
                 height: 400,
-                width: 400
+                width: 600
             },
             positions: {
                 player: {top: 0,
@@ -18,15 +18,21 @@ export default class Game extends Component {
                 projectiles: []
             },
             projectileSpeed: 20,
-            projectileIndex: 0
+            projectileIndex: 0,
+            enemy: {
+                top: 250,
+                left: 550,
+                height: 50,
+                width: 50
+            },
+            enemyProjectiles: []
 
         };
         this.makeNewProjectile = this.makeNewProjectile.bind(this);
         this.startProjectile = this.startProjectile.bind(this);
         this.handleKeypress = this.handleKeypress.bind(this);
         this.updateProjectilePositions = this.updateProjectilePositions.bind(this);
-        this.moveProjectiles = this.moveProjectiles.bind(this);
-        // this.handleCollision = this.handleCollision.bind(this);
+        this.updateEnemyPosition = this.updateEnemyPosition.bind(this);
      
     }
 
@@ -34,66 +40,61 @@ export default class Game extends Component {
     componentDidMount() {
         this.refs.hero.focus();
         window.onkeydown = this.handleKeypress;
+        requestAnimationFrame(()=>this.updateProjectilePositions());
     }
 
         
 
-       makeNewProjectile(/*position*/) {
+    makeNewProjectile(character) {
         this.setState({
             projectileIndex: this.state.projectileIndex + 1
-        })
+        });
 
-        const newProjectile = {
-            key: this.state.projectileIndex,
-            info: {
-                top: this.state.positions.player.top + 25,
-                left: this.state.positions.player.left + 75
-            }};
-
-
-        return newProjectile;
+        if(character === "hero") {
+            const newProjectile = {
+                key: this.state.projectileIndex,
+                info: {
+                    top: this.state.positions.player.top + 25,
+                    left: this.state.positions.player.left + 75
+                }};
+                return newProjectile;
+        } else {
+            const newEnemyProjectile = {
+                key: this.state.projectileIndex,
+                info: {
+                    top: this.state.enemy.top + (this.state.enemy.height/2),
+                    left: this.state.enemy.left - (this.state.enemy.width)
+                }
+            }
+            return newEnemyProjectile;
+        }
 
     }
 
     startProjectile() {
         // const {player: playerPos} = this.state.positions;
-        const newProjectile = this.makeNewProjectile(/*playerPos*/);
+        const newProjectile = this.makeNewProjectile("hero");
+        const newEnemyProjectile = this.makeNewProjectile("enemy")
 
         this.setState({
             positions: {
                 ...this.state.positions,
                 projectiles: [...this.state.positions.projectiles].concat(newProjectile)
-            }
+            },
+            enemyProjectiles: [...this.state.enemyProjectiles].concat(newEnemyProjectile)
         });
-
-        this.moveProjectiles();
-            
-            // this.state.positions.projectiles.map(function(projectile){
-            //     if(this.state.positions.projectiles.info.left > 390) {
-            //         clearInterval(this.projectileInterval)
-            //     } else {
-            //         this.projectileInterval = setInterval(this.updateProjectilePositions, 50)
-            //     }
-            // })
-         
         
     }
 
-    moveProjectiles = () => {
-        this.projectileInterval = setInterval(this.updateProjectilePositions, 100)
-    }
 
-    // handleCollision = () => {
-    //     clearInterval(this.projectileInterval)
-    // }
 
     updateProjectilePositions() {
-        const {positions, container} = this.state;
+        const {positions, container, enemy, enemyProjectiles} = this.state;
         {positions.projectiles.length < 1 ? null : (
             this.setState({
             positions: {
                 ...positions,
-                projectiles: positions.projectiles.map(function(projectile) {
+                projectiles: positions.projectiles.filter(projectile => !projectile.remove).map(function(projectile) {
                     // console.log(projectile, "line 73, updateProjectilePositions()")
                     
                     if(projectile.info.left >= container.width -10 ) {
@@ -109,23 +110,30 @@ export default class Game extends Component {
         })
 
         )}
-        // positions.projectiles.length > 11 ? positions.projectiles.splice(0, 10) : null;
-        // console.log(positions.projectiles)
-        for(var i = 0; i < this.state.positions.projectiles.length; i++) {
-                if(this.state.positions.projectiles[i].delete) {
-                    this.state.positions.projectiles.splice(i, 1)
-                }
-            }
+
+        {
+            enemyProjectiles.length < 1 ? null : (
+                this.setState({
+                    enemyProjectiles: enemyProjectiles.filter(projectile => !projectile.remove).map(function(projectile) {
+                        if(projectile.info.left <= 10) {
+                            projectile.remove = true;
+                        } else {
+                            projectile.info.left -= 5;
+                            projectile.remove = false;
+                        }
+                        return projectile;
+                    }) 
+                })
+            )
+        }
+
+        requestAnimationFrame(()=>this.updateProjectilePositions());
+
     }
 
 
     handleKeypress(e){
-        // this.refs.block.focus();
         console.log(e.keyCode)
-        // if(this.state.positions.player.top === 200 && this.state.positions.player.left === 100) {
-        //     alert("You Win!");
-        //     //something else either pop up a link to the next page or reload the page
-        // } else {
         switch(e.keyCode) {
             case 38 :
             console.log("up")
@@ -165,49 +173,72 @@ export default class Game extends Component {
             case 37 :
             console.log('left');
             this.state.positions.player.left >=  10 ?
-            (this.setState({
-                positions: {player: {top: this.state.positions.player.top,
+                (this.setState({
+                    positions: {
+                            player: {
+                                    top: this.state.positions.player.top,
                                     left: this.state.positions.player.left-10
-                                },
+                            },
                             projectiles: this.state.positions.projectiles
-            }})) : null;
+                    }
+                })) : null;
             break;
 
             case 32:
             console.log("pew!");
-            this.startProjectile();
-            console.log(this.state.positions.projectiles,"line 143")       
+            this.startProjectile();    
+            // console.log(this.state.enemy.top)
             break;
 
             default:
             break;
         }
-        // }
     }
 
-
+    updateEnemyPosition(position) {
+        this.setState({
+            enemy: {
+                top: position,
+                left: this.state.enemy.left,
+                width: this.state.enemy.width,
+                height: this.state.enemy.height
+            }
+        })
+    }
 
     render() {
-        const {positions: {player: playerPos}} = this.state;
+        const {positions: {player: playerPos}, enemy, container} = this.state;
+        
 
         return(
             <div className="game-page">
                 <div className="board">
-                <div ref="hero" className="hero" tabIndex="0" onKeyDown={(e) =>this.handleKeypress(e)} style={this.state.positions.player}>  </div>
-                <div className="enemy" ref="enemy">Enemy</div>
-                {this.state.positions.projectiles.length < 1 ? null:  (
-                      this.state.positions.projectiles.map( function(projectile) {
-                         {/* console.log(projectile) */}
-                         {/* console.log(projectile, "line 181, return")  */}
-                            if(projectile.info.top >= 200 && projectile.info.top <= 250 && projectile.info.left === 350) {
-                                alert("You Win!")
-                            } else {
+                    <div ref="hero" className="hero" tabIndex="0" onKeyDown={(e) =>this.handleKeypress(e)} style={this.state.positions.player}>  </div>
+                    <Enemy position={this.state.enemy} update={this.updateEnemyPosition}/>
+                    {this.state.positions.projectiles.length < 1 ? null:  (
+                        this.state.positions.projectiles.map( function(projectile) {
+                            if(projectile.info.top <= (enemy.top + enemy.height) && projectile.info.top >= enemy.top && projectile.info.left === (container.width - enemy.width)) { 
+                                 alert("You Win!") 
+                              } else {   
                                 return <Shoot key={projectile.key} info={projectile.info} playerPosition={playerPos} /> 
+                             } 
+                                
+                        
+                        })
+                    )}
+
+                    {this.state.enemyProjectiles.length < 1 ? null : (
+                        this.state.enemyProjectiles.map(function(projectile) {
+                            if(projectile.info.top <= (playerPos.top + 85) &&
+                                projectile.info.top >= playerPos.top && projectile.info.left === 85) {
+                                    {/* return <div className="lose"> Try again! </div> */}
+                                    alert("Try again!")
+                            } else {
+                                return <Shoot key={projectile.key} info={projectile.info} enemyPosition={enemy}/>
                             }
                             
-                      
-                    })) 
-                }
+                        })
+                    )}                    
       
                 </div>
                 <div className="no-game">
