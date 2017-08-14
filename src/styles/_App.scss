@@ -1,8 +1,12 @@
-.App {
+html body {
   background-image: url("./../images/bg-images/milkyway.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.App {
+
   height: 100vh;
   p {
     color: rgb(245, 245, 245);

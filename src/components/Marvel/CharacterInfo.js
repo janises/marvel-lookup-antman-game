@@ -83,7 +83,7 @@ export default class CharacterInfo extends Component {
                                     <img src={this.state.characterPic} alt="character"/>
                                     
                                     {!this.state.characterDescription || this.state.characterDescription === " "? (
-                                        <p>We're too busy fangirling to describe them accurately, so check out their <a href= {this.state.characterWiki}>Wiki page</a>!</p>
+                                        <p>We're too busy geeking out to describe them accurately, so check out their <a href= {this.state.characterWiki}>Wiki page</a>!</p>
                                     ) : 
                                         <p>{this.state.characterDescription}</p>
                                     }
