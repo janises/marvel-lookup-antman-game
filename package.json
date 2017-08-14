@@ -1,5 +1,6 @@
 {
   "name": "no-server-project",
+  "homepage": "https://janises.github.io/no-server-project",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
