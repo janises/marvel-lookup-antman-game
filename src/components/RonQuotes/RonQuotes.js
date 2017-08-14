@@ -13,7 +13,7 @@ export default class RonSwanson extends Component {
     }
 
     ronQuote() {
-        axios.get('http://ron-swanson-quotes.herokuapp.com/v2/quotes')
+        axios.get('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
             .then((response) => {
                 this.setState({
                     ronQuote: response.data
