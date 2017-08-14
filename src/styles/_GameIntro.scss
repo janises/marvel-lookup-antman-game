@@ -40,6 +40,12 @@
         line-height: 1.5em;
     }
     .ant-man {
-        height: 100px;
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 300px), (max-height: 600px) {
+    .ant-man {
+        display: none;
     }
 }

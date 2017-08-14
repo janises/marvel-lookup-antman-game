@@ -7,11 +7,11 @@ export default class Landing extends Component {
     twinkle() {
         var stars = [];
        
-       for(var i = 0; i < 150; i++) {
+       for(var i = 0; i < 125; i++) {
                             //divStyle with random duration and linear, infinite animation
          var divStyle= {                                        
-                    animation: `twinkle ${(Math.floor(Math.random()*5) + 4)}s linear infinite`,
-                    top: Math.floor(Math.random()*250),
+                    animation: `twinkle ${(Math.floor(Math.random()*3) + 2)}s linear infinite`,
+                    top: Math.floor(Math.random()*150),
                     left: Math.floor(Math.random()*700)
                 }
             stars.push( <div key={i} className="star" style = {divStyle}></div>)

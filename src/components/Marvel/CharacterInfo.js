@@ -8,8 +8,8 @@ export default class CharacterInfo extends Component {
         super();
         this.state= {
             charactersURL: 'https://gateway.marvel.com/v1/public/characters?nameStartsWith=',
-            privateKey, //removed API keys
-            publicKey,
+            privateKey: 'eda7a247a05174b9b93d3e65d4b847b6c738dbde',
+            publicKey: '3db984f93f5b3f51e52a69dc55d39558',
             errorMessage: ""
         };
     }
@@ -80,7 +80,7 @@ export default class CharacterInfo extends Component {
                             <div className="character-card">
                                 <div className='card-back'>
                                     <h2>{this.state.characterName}</h2>
-                                    <img src={this.state.characterPic} alt="character picture"/>
+                                    <img src={this.state.characterPic} alt="character"/>
                                     
                                     {!this.state.characterDescription || this.state.characterDescription === " "? (
                                         <p>We're too busy fangirling to describe them accurately, so check out their <a href= {this.state.characterWiki}>Wiki page</a>!</p>
