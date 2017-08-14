@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
+
 export default class Landing extends Component {
                              //push star divs into array with key, className and style
     twinkle() {
@@ -26,9 +27,34 @@ export default class Landing extends Component {
                 <Link to="/ronswanson"> 
                     <div className="easter-egg"> </div>
                 </Link>
+
                 <div className="shooting-star"></div>
-               {this.twinkle()}
+
+                {this.twinkle()}
+            
+                <div className="game-option">
+                    <h1 className="landing-text"> I feel like playing a game. </h1>
+                    
+                     <button className="play-game btn">
+                        <Link to="/gameintro">
+                            Play
+                        </Link>
+                     </button>
+                    
+                </div>
+                <div className="marvel-option">
+                    <h1 className="landing-text"> I feel like looking at some superheroes.  </h1>
+                    <button className="marvel-search btn">
+                        <Link className="marvel-character-search" to="/marvelcharacters">
+                            Marvel
+                        </Link>
+                    </button>
+                    
+                </div>
                 
+
+
+
             </div>
         )
     }

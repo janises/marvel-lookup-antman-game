@@ -8,8 +8,8 @@ export default class CharacterInfo extends Component {
         super();
         this.state= {
             charactersURL: 'https://gateway.marvel.com/v1/public/characters?nameStartsWith=',
+            privateKey, //removed API keys
             publicKey,
-            privateKey,
             errorMessage: ""
         };
     }

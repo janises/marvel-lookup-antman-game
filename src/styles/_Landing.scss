@@ -1,6 +1,31 @@
 .landing {
     position: relative;
     display: flex;
+    height: calc(100vh - 80px);
+}
+
+
+.game-option, .marvel-option{
+    text-align: center;
+    background-color: rgba(#222, 0.55);
+    padding: 10px 10px;
+    height: 100px;
+    margin: auto;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    border-radius: 3px;
+}
+
+
+
+.landing-text {
+    color: whitesmoke;
+    font-size: large;
+    font-family: sans-serif;
+    padding-bottom: 20px;
 }
 
 .star {
@@ -10,6 +35,41 @@
   background: rgba(255,255,255,0.0);
   border-radius: 5px;
   display: block;
+}
+
+/* BUTTONS*/
+
+
+.btn {
+    border: 2px solid #333;
+    border-radius: 2px;
+    padding: 3px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.5s;
+    a {
+        color: white;
+        padding: 0 5px;
+    }
+}
+
+.marvel-search {
+    background-color: #f44336;
+}
+
+.play-game {
+    background-color: #008cba;
+}
+
+.marvel-search:hover {
+    background-color: rgba(#222, 0.10);
+    border: 2px solid #f44336;
+}
+
+.play-game:hover {
+    background-color: rgba(#222, 0.10);
+    border: 2px solid #008cba;
 }
 
 /* SHOOTING STAR */
@@ -29,7 +89,6 @@
 .easter-egg {
     height: 100px;
     width: 100px;
-    // background-color: red;
     position: absolute;
     top: 5vh;
     left: 75vw;
@@ -44,14 +103,10 @@
     background: rgba(255,255,255,0.0);
     animation-timing-function: ease-in;
   }
-  60% {
+  50% {
     transform: scale(0.8, 0.8);
     background: rgba(255,255,255,1);
     animation-timing-function: ease-out;
-  }
-  80% {
-    background: rgba(255,255,255,0.00);
-    transform: scale(1, 1);
   }
   100% {
     background: rgba(255,255,255,0.0);
@@ -64,12 +119,12 @@
     0% {
         left: 0;
     }
-    15% {
+    15% { //stop at 15% so there is a delay before the shooting star resets
         left: 500px;
         top: 100px;
         visibility: hidden;
     }
-    100% {
+    100% { 
         left: 500px;
         top: 100px;
         visibility: hidden;
@@ -84,6 +139,17 @@
     }
 }
 
+@media only screen and (max-width: 600px) {
+    .landing {
+        flex-direction: column;
+    }
+
+    .game-option, .marvel-option {
+        margin-top: 50px;
+    }
+
+}
+
 @media only screen and (max-width: 500px) {
     .easter-egg {
         display: none;
@@ -91,5 +157,10 @@
 
     .shooting-star {
         display: none;
+    }
+
+    .landing-text{
+        font-size: 1em;
+        padding-bottom: 10px;
     }
 }

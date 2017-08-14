@@ -22,7 +22,7 @@ export default class Game extends Component {
             enemy: {
                 top: 250,
                 left: 550,
-                height: 50,
+                height: 60,
                 width: 50
             },
             enemyProjectiles: []
@@ -34,9 +34,6 @@ export default class Game extends Component {
         this.handleKeypress = this.handleKeypress.bind(this);
         this.updateProjectilePositions = this.updateProjectilePositions.bind(this);
         this.updateEnemyPosition = this.updateEnemyPosition.bind(this);
-        this.win = this.win.bind(this);
-        this.lose = this.lose.bind(this);
-     
     }
 
 
@@ -67,8 +64,8 @@ export default class Game extends Component {
             const newEnemyProjectile = {
                 key: this.state.projectileIndex,
                 info: {
-                    top: this.state.enemy.top + (this.state.enemy.height/2),
-                    left: this.state.enemy.left - (this.state.enemy.width)
+                    top: this.state.enemy.top + (this.state.enemy.height/2 + 10),
+                    left: this.state.enemy.left
                 }
             }
             return newEnemyProjectile;
@@ -77,7 +74,6 @@ export default class Game extends Component {
     }
 
     startProjectile() {
-        // const {player: playerPos} = this.state.positions;
         const newProjectile = this.makeNewProjectile("hero");
         const newEnemyProjectile = this.makeNewProjectile("enemy")
 
@@ -100,15 +96,12 @@ export default class Game extends Component {
             positions: {
                 ...positions,
                 projectiles: positions.projectiles.filter(projectile => !projectile.remove).map(function(projectile) {
-                    // console.log(projectile, "line 73, updateProjectilePositions()")
-                    
                     if(projectile.info.left >= container.width -10 ) {
                         projectile.remove = true;
                     } else {
                         projectile.info.left += 5;
                         projectile.remove = false;
                     }
-                    // console.log(projectile, "line 78")
                     return projectile;
                 })
             }
@@ -134,18 +127,12 @@ export default class Game extends Component {
 
         enemyProjectiles.map((projectile)=> {
             if(projectile.end) {
-                // this.setState({
-                //     ...this.defaultState
-                // })
                 this.lose()
             }
         })
 
         positions.projectiles.map((projectile) => {
             if(projectile.end) {
-                // this.setState({
-                //     ...this.defaultState
-                // })
                 this.win()
             }
         })
@@ -210,7 +197,6 @@ export default class Game extends Component {
             case 32:
             console.log("pew!");
             this.startProjectile();    
-            // console.log(this.state.enemy.top)
             break;
 
             default:
@@ -230,17 +216,13 @@ export default class Game extends Component {
     }
 
     win =() =>{
-        this.setState({
-            ...this.getDefaultState()})
-        return (
-            <div>You Win</div> 
-        )
+        this.setState({...this.getDefaultState()})
+        alert("You quoted Ruth Bader Ginsburg and taught the patriarchy a lesson!")
     }
 
     lose =() => {
         this.setState({...this.getDefaultState()})
-        // alert("Try again")
-        return <div>You lose</div>
+        alert("Nevertheless, you persisted")
     }
 
     render() {
@@ -255,10 +237,9 @@ export default class Game extends Component {
 
                     {this.state.positions.projectiles.length < 1 ? null:  (
                         this.state.positions.projectiles.map( function(projectile) {
-                            if(projectile.info.top <= (enemy.top + enemy.height) && projectile.info.top >= enemy.top && projectile.info.left === (container.width - enemy.width)) { 
-                                  {/* this.win() */}
+                            if(projectile.info.top <= (enemy.top + enemy.height) && projectile.info.top >= enemy.top && projectile.info.left === (container.width - enemy.width)) {
                                   projectile.end = true;
-                                    return <div> You win</div>
+                                  // win  
                               } else {   
                                 return <Shoot key={projectile.key} info={projectile.info} playerPosition={playerPos} /> 
                              } 
@@ -270,15 +251,12 @@ export default class Game extends Component {
                     {this.state.enemyProjectiles.length < 1 ? null : (
                         this.state.enemyProjectiles.map(function(projectile) {
                             if(projectile.info.top <= (playerPos.top + 85) &&
-                                projectile.info.top >= playerPos.top && projectile.info.left === 85) {
-                                    {/* this.lose() */}
+                                projectile.info.top >= playerPos.top && projectile.info.left === playerPos.left+45 ) {
                                     projectile.end = true;
-                                    return <div>you lose</div>
-      
+                                    //lose
                             } else {
                                 return <Shoot key={projectile.key} info={projectile.info} enemyPosition={enemy}/>
                             }
-                            
                         })
                     )}                    
       

@@ -10,9 +10,9 @@ export default function Header() {
                     <Link to="/">
                         <li>Home</li>
                     </Link>
-                    <Link to="/marvelcharacters">
+                    {/* <Link to="/marvelcharacters">
                         <li> Marvel</li>
-                    </Link>
+                    </Link> */}
                     {/* <Link> 
                         <li>Something elser</li>
                     </Link> */}
