@@ -90,9 +90,9 @@ export default class Game extends Component {
 
 
     updateProjectilePositions() {
-        //eslint-disable-next-line
+        
         const {positions, container, enemy, enemyProjectiles} = this.state;
-        //eslint-disable-next-line
+        
         {positions.projectiles.length < 1 ? null : (
             this.setState({
             positions: {
@@ -110,7 +110,7 @@ export default class Game extends Component {
         })
 
         )}
-//eslint-disable-next-line  
+ 
             enemyProjectiles.length < 1 ? null : (
                 this.setState({
                     enemyProjectiles: enemyProjectiles.filter(projectile => !projectile.remove).map(function(projectile) {
@@ -125,13 +125,13 @@ export default class Game extends Component {
                 })
             )
         
-            //eslint-disable-next-line
+           
         enemyProjectiles.map((projectile)=> {
             if(projectile.end) {
                 this.lose()
             }
         })
-//eslint-disable-next-line
+
         positions.projectiles.map((projectile) => {
             if(projectile.end) {
                 this.win()
@@ -148,7 +148,6 @@ export default class Game extends Component {
         switch(e.keyCode) {
             case 38 :
             console.log("up")
-            //eslint-disable-next-line
             this.state.positions.player.top >= 10 ? (this.setState({
                 positions: {
                     player: {top: this.state.positions.player.top-10,
@@ -160,7 +159,6 @@ export default class Game extends Component {
 
             case 40 :
             console.log("down");
-            //eslint-disable-next-line
             this.state.positions.player.top <=  this.state.container.height -60 ?
             (this.setState({
                 positions: {player: {
@@ -173,7 +171,6 @@ export default class Game extends Component {
 
             case 39 :
             console.log("right");
-            //eslint-disable-next-line
             this.state.positions.player.left <=  this.state.container.width -60 ?
             (this.setState({
                 positions: { player: {
@@ -186,7 +183,6 @@ export default class Game extends Component {
 
             case 37 :
             console.log('left');
-            //eslint-disable-next-line
             this.state.positions.player.left >=  10 ?
                 (this.setState({
                     positions: {
@@ -241,7 +237,7 @@ export default class Game extends Component {
                     <Enemy position={this.state.enemy} update={this.updateEnemyPosition}/>
 
                     {this.state.positions.projectiles.length < 1 ? null:  (
-                        //eslint-disable-next-line
+        
                         this.state.positions.projectiles.map( function(projectile) {
                             if(projectile.info.top <= (enemy.top + enemy.height) && projectile.info.top >= enemy.top && projectile.info.left === (container.width - enemy.width)) {
                                   projectile.end = true;
@@ -255,7 +251,7 @@ export default class Game extends Component {
                     )}
 
                     {this.state.enemyProjectiles.length < 1 ? null : (
-                        //eslint-disable-next-line
+                        
                         this.state.enemyProjectiles.map(function(projectile) {
                             if(projectile.info.top <= (playerPos.top + 85) &&
                                 projectile.info.top >= playerPos.top && projectile.info.left === playerPos.left+45 ) {

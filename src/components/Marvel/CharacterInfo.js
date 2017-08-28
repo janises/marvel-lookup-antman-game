@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import md5 from 'md5'; //to create the hash for the api key
-import HulkSad from "../../images/Hulk-sad.jpg"
+import HulkSad from "../../images/Hulk-sad.jpg";
+import config from './../../config';
 
 export default class CharacterInfo extends Component {
     constructor() {
         super();
         this.state= {
             charactersURL: 'https://gateway.marvel.com/v1/public/characters?nameStartsWith=',
-            privateKey: 'eda7a247a05174b9b93d3e65d4b847b6c738dbde',
-            publicKey: '3db984f93f5b3f51e52a69dc55d39558',
+            privateKey: config.privateKey,
+            publicKey: config.publicKey,
             errorMessage: ""
         };
     }

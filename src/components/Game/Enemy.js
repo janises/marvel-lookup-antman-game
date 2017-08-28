@@ -21,7 +21,7 @@ export default class Enemy extends Component {
         )
         // if the position of Enemy hits 0 or 350, it reverses direction
         if(this.props.position.top <= 0 || this.props.position.top >= 350) {
-            //eslint-disable-next-line
+           
             this.state.speed *= -1;
         }
 
@@ -31,8 +31,6 @@ export default class Enemy extends Component {
     }
 
     render() {
-        
-        // console.log(this.state.position.top)
 
         return ( 
             <div className="enemy" style={this.props.position}></div>
